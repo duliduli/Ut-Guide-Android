@@ -25,7 +25,7 @@ dependencies {
 
 ####二、截图预览
 
-![](https://github.com/2366634662/Ut-Guide-Android/master/screenshot/TransGuide.gif)
+![](https://github.com/2366634662/Ut-Guide-Android/raw/master/screenshot/TransGuide.gif)
 
 demo 下载地址：
 ----------
@@ -45,7 +45,7 @@ demo 下载地址：
 |------------------------|------------------------|--------------------------------------------------------------|--------|
 | maskColor              |   0x50000000           |  setMaskColor(int maskColor)                |透明指示层的背景颜色|
 | delayMillis            |   300                  |  setDelayMillis(int delayMillis)               |延迟显示时间|
-| fadeAnimationDuration  |   500                  |  setFadeAnimationDuration(int delayMillis)                |动画延迟显示时间|
+| fadeAnimationDuration  |   500                  |  setFadeAnimationDuration(int delayMillis)                |动画显示时间|
 | padding                |   10                   |  setTargetPadding(int padding)    |画圆时内边距|
 | focusType              |   Focus.NORMAL         |  setNormalStrokeWidth(int widht)              |指示区域要画的类型|
 | isFadeAnimationEnabled |   true                 |  setEnableFadeAnimation(boolean isFadeAnimationEnabled)              | 是否带有动画|
@@ -55,7 +55,7 @@ demo 下载地址：
 | infoTextViewSize       |   original text size   |  setInfoTextSize(int textSize)    |提示内容的文字大小|
 | infoTextViewContent    |   null                 |  setInfoText(String infoText)   |提示的内容|
 | isImageViewEnabled     |   true                 |  setImgsIconVisible(boolean isImageViewIconEnabled)           |提示内容前面的图片是否显示|
-| imageViewIcon backGround  |   null              |  setImgsIconBack(Integer imageViewIconIds)           |提示内容前面的图片背景|
+| imageViewIcon backGround  |   null              |  setImgsIconBack(Integer imageViewIconIds)           |提示内容前面的图片资源|
 | skipTextColor             |   original text color  |  setSkipTextColor(int skipColor)             |跳过按钮的文字颜色|
 | skipTextSize              |   original text size   |  setSkipTextSize(int skipTextSize)             |跳过按钮的文字大小|
 | skipText isVisible        |   false                |  setSkipTextVisible(boolean visible)             |跳过按钮的文字是否显示|
@@ -63,6 +63,14 @@ demo 下载地址：
 | contentLayoutBackGround   |   @android:color/white |  setBackGround(int backGroundColor)             |提示区域的背景颜色|
 | Targets      |                      | setTargets(View... view)              |  要指示的按钮  |
 
+Focus
+------
+| Type | 作用 | 
+|------------------------|-------------------------|
+| Focus.NORMAL| 普通圆形| 
+| Focus.ALL| 全包裹圆形| 
+| Focus.MINIMUM| 固定大小圆形| 
+| Focus.RECT| 矩形| 
 
 **示例代码**
 
