@@ -55,8 +55,6 @@ public class TransGuideView extends RelativeLayout {
 
     private Focus focusType;
 
-    private Target targetView;
-
     private List<Target> targetViews;
 
     private Paint eraser;
@@ -93,7 +91,6 @@ public class TransGuideView extends RelativeLayout {
 
     private TextView tv_skip_guide;
 
-    private String materialIntroViewId;
 
     private boolean isLayoutCompleted;
 
@@ -164,29 +161,16 @@ public class TransGuideView extends RelativeLayout {
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (targetView != null) {
-                    lightAreaShape.reCalculateAll(Constants.DEFAULT_POSITION);
-                    if (lightAreaShape != null && lightAreaShape.getPoint(Constants.DEFAULT_POSITION).y != 0 && !isLayoutCompleted) {
+                for (int i = 0; i < targetViews.size(); i++) {
+                    lightAreaShape.reCalculateAll(i);
+                    if (lightAreaShape != null && lightAreaShape.getPoint().y != 0 && !isLayoutCompleted) {
                         if (isInfoEnabled) {
-                            setInfoLayout(Constants.DEFAULT_POSITION);
+                            setInfoLayout();
                         }
                         if (isDotViewEnabled) {
                             setDotViewLayout();
                         }
                         removeOnGlobalLayoutListener(TransGuideView.this, this);
-                    }
-                } else {
-                    for (int i = 0; i < targetViews.size(); i++) {
-                        lightAreaShape.reCalculateAll(i);
-                        if (lightAreaShape != null && lightAreaShape.getPoint(i).y != 0 && !isLayoutCompleted) {
-                            if (isInfoEnabled) {
-                                setInfoLayout(targetViews.size() - 1);
-                            }
-                            if (isDotViewEnabled) {
-                                setDotViewLayout();
-                            }
-                            removeOnGlobalLayoutListener(TransGuideView.this, this);
-                        }
                     }
                 }
             }
@@ -228,9 +212,6 @@ public class TransGuideView extends RelativeLayout {
 
         if (!isReady)
             return;
-        if (targetView != null) {
-            drawLightArea(canvas, Constants.DEFAULT_POSITION);
-        }
         if (targetViews != null) {
             for (int i = 0; i < targetViews.size(); i++) {
                 drawLightArea(canvas, i);
@@ -265,10 +246,10 @@ public class TransGuideView extends RelativeLayout {
         float xT = event.getX();
         float yT = event.getY();
 
-        int xV = lightAreaShape.getPoint(0).x;
-        int yV = lightAreaShape.getPoint(0).y;
+        int xV = lightAreaShape.getPoint().x;
+        int yV = lightAreaShape.getPoint().y;
 
-        int radius = lightAreaShape.getRadius(0);
+        int radius = lightAreaShape.getRadius();
 
         double dx = Math.pow(xT - xV, 2);
         double dy = Math.pow(yT - yV, 2);
@@ -331,7 +312,7 @@ public class TransGuideView extends RelativeLayout {
                 setVisibility(GONE);
                 removeMaterialView();
                 if (materialIntroListener != null) {
-                    materialIntroListener.onUserClicked(materialIntroViewId);
+                    materialIntroListener.onUserClicked(targetViews.get(targetViews.size() - 1).getView());
                 }
             }
         });
@@ -346,7 +327,7 @@ public class TransGuideView extends RelativeLayout {
     /**
      * content layout
      */
-    private void setInfoLayout(final int pos) {
+    private void setInfoLayout() {
 
         handler.post(new Runnable() {
             @Override
@@ -356,19 +337,16 @@ public class TransGuideView extends RelativeLayout {
                     ((ViewGroup) infoView.getParent()).removeView(infoView);
                 LayoutParams infoDialogParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 ((RelativeLayout) infoView).setGravity(Gravity.BOTTOM);
-                if (lightAreaShape.getPoint(pos).y < height / 2) {
-                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint(pos).y + lightAreaShape.getRadius(pos)) - 3 * lightAreaShape.getRadius(pos));
+                if (lightAreaShape.getPoint().y < height / 2) {
+                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint().y + lightAreaShape.getRadius()) - 3 * lightAreaShape.getRadius());
                 } else {
-                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint(pos).y + lightAreaShape.getRadius(pos)) + 2 * lightAreaShape.getRadius(pos));
+                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint().y + lightAreaShape.getRadius()) + 2 * lightAreaShape.getRadius());
                 }
                 infoView.setLayoutParams(infoDialogParams);
                 infoView.postInvalidate();
                 addView(infoView);
                 if (!isImageViewEnabled) {
                     imageViewIcon.setVisibility(GONE);
-                }
-                if (targetView == null) {
-                    tv_skip_guide.setVisibility(GONE);
                 }
                 infoView.setVisibility(VISIBLE);
             }
@@ -387,7 +365,7 @@ public class TransGuideView extends RelativeLayout {
                 LayoutParams dotViewLayoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 dotViewLayoutParams.height = (int) (Constants.DEFAULT_DOT_SIZE * Resources.getSystem().getDisplayMetrics().density);
                 dotViewLayoutParams.width = (int) (Constants.DEFAULT_DOT_SIZE * Resources.getSystem().getDisplayMetrics().density);
-                dotViewLayoutParams.setMargins(lightAreaShape.getPoint(0).x - (dotViewLayoutParams.width / 2), lightAreaShape.getPoint(0).y - (dotViewLayoutParams.height / 2), 0, 0);
+                dotViewLayoutParams.setMargins(lightAreaShape.getPoint().x - (dotViewLayoutParams.width / 2), lightAreaShape.getPoint().y - (dotViewLayoutParams.height / 2), 0, 0);
                 dotView.setLayoutParams(dotViewLayoutParams);
                 dotView.postInvalidate();
                 addView(dotView);
@@ -424,9 +402,6 @@ public class TransGuideView extends RelativeLayout {
         this.isReady = isReady;
     }
 
-    private void setTarget(Target target) {
-        targetView = target;
-    }
 
     private void setTargets(List<Target> targetViews) {
         this.targetViews = targetViews;
@@ -492,9 +467,6 @@ public class TransGuideView extends RelativeLayout {
         this.isDotViewEnabled = isDotViewEnabled;
     }
 
-    private void setUsageId(String materialIntroViewId) {
-        this.materialIntroViewId = materialIntroViewId;
-    }
 
     private void setListener(TransGuideListener materialIntroListener) {
         this.materialIntroListener = materialIntroListener;
@@ -507,6 +479,11 @@ public class TransGuideView extends RelativeLayout {
 
     private void setImgIcon(Integer imgsId) {
         this.imageViewIcon.setBackgroundResource(imgsId);
+    }
+
+
+    private void setInfoViewBack(int colorInfoView) {
+        this.infoView.setBackgroundResource(colorInfoView);
     }
 
     /**
@@ -554,7 +531,7 @@ public class TransGuideView extends RelativeLayout {
          * @param isFadeAnimationEnabled 是否带动画显示消失 默认为true
          * @return
          */
-        public BuilderGuide enableFadeAnimation(boolean isFadeAnimationEnabled) {
+        public BuilderGuide setEnableFadeAnimation(boolean isFadeAnimationEnabled) {
             materialIntroView.enableFadeAnimation(isFadeAnimationEnabled);
             return this;
         }
@@ -569,19 +546,10 @@ public class TransGuideView extends RelativeLayout {
         }
 
         /**
-         * @param view 要指示的View
-         * @return
-         */
-        public BuilderGuide setTarget(View view) {
-            materialIntroView.setTarget(new ViewTarget(view));
-            return this;
-        }
-
-        /**
          * @param view 要指示的View的集合
          * @return
          */
-        public BuilderGuide setTargets(List<View> view) {
+        public BuilderGuide setTargets(View... view) {
             ArrayList<Target> list = new ArrayList<>();
             for (View view1 : view) {
                 list.add(new ViewTarget(view1));
@@ -591,7 +559,7 @@ public class TransGuideView extends RelativeLayout {
         }
 
         /**
-         * @param padding 内边距 默认为10
+         * @param padding 画圆时内边距 默认为10
          * @return
          */
         public BuilderGuide setTargetPadding(int padding) {
@@ -615,6 +583,15 @@ public class TransGuideView extends RelativeLayout {
          */
         public BuilderGuide setInfoTextSize(int textSize) {
             materialIntroView.setTextViewInfoSize(textSize);
+            return this;
+        }
+
+        /**
+         * @param textColor 内容的文字颜色
+         * @return
+         */
+        public BuilderGuide setTextColor(int textColor) {
+            materialIntroView.setColorTextViewInfo(textColor);
             return this;
         }
 
@@ -647,15 +624,6 @@ public class TransGuideView extends RelativeLayout {
 
 
         /**
-         * @param textColor 内容的文字颜色
-         * @return
-         */
-        public BuilderGuide setTextColor(int textColor) {
-            materialIntroView.setColorTextViewInfo(textColor);
-            return this;
-        }
-
-        /**
          * @param dismissAnyPos 点击任何位置 是否消失  默认为false
          * @return
          */
@@ -664,20 +632,12 @@ public class TransGuideView extends RelativeLayout {
             return this;
         }
 
-        /**
-         * @param materialIntroViewId ，每一个指示的View，设置一个标记ID
-         * @return
-         */
-        public BuilderGuide setUsageId(String materialIntroViewId) {
-            materialIntroView.setUsageId(materialIntroViewId);
-            return this;
-        }
 
         /**
          * @param isDotAnimationEnabled 是否动画
          * @return
          */
-        public BuilderGuide enableDotAnimation(boolean isDotAnimationEnabled) {
+        public BuilderGuide setEnableDotAnimation(boolean isDotAnimationEnabled) {
             materialIntroView.enableDotView(isDotAnimationEnabled);
             return this;
         }
@@ -686,7 +646,7 @@ public class TransGuideView extends RelativeLayout {
          * @param isImageViewIconEnabled 是否显示图片
          * @return
          */
-        public BuilderGuide enableIcon(boolean isImageViewIconEnabled) {
+        public BuilderGuide setImgsIconVisible(boolean isImageViewIconEnabled) {
             materialIntroView.enableImageViewIcon(isImageViewIconEnabled);
             return this;
         }
@@ -695,8 +655,13 @@ public class TransGuideView extends RelativeLayout {
          * @param imageViewIconIds 文字前面的图片
          * @return
          */
-        public BuilderGuide imgsIcon(Integer imageViewIconIds) {
+        public BuilderGuide setImgsIconBack(Integer imageViewIconIds) {
             materialIntroView.setImgIcon(imageViewIconIds);
+            return this;
+        }
+
+        public BuilderGuide setBackGround(int backGroundColor) {
+            materialIntroView.setInfoViewBack(backGroundColor);
             return this;
         }
 
@@ -711,7 +676,7 @@ public class TransGuideView extends RelativeLayout {
             return this;
         }
 
-        public BuilderGuide performClick(boolean isPerformClick) {
+        public BuilderGuide setPerformClick(boolean isPerformClick) {
             materialIntroView.setPerformClick(isPerformClick);
             return this;
         }
@@ -722,15 +687,6 @@ public class TransGuideView extends RelativeLayout {
 
         public TransGuideView build() {
             DrawLightArea circle = new DrawLightArea(
-                    materialIntroView.targetView,
-                    materialIntroView.focusType,
-                    materialIntroView.padding);
-            materialIntroView.setCircle(circle);
-            return materialIntroView;
-        }
-
-        public TransGuideView buildAll() {
-            DrawLightArea circle = new DrawLightArea(
                     materialIntroView.targetViews,
                     materialIntroView.focusType,
                     materialIntroView.padding);
@@ -738,13 +694,9 @@ public class TransGuideView extends RelativeLayout {
             return materialIntroView;
         }
 
+
         public TransGuideView show() {
             build().show(activity);
-            return materialIntroView;
-        }
-
-        public TransGuideView showAll() {
-            buildAll().show(activity);
             return materialIntroView;
         }
     }

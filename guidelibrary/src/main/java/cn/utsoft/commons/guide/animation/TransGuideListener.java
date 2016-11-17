@@ -1,8 +1,10 @@
 package cn.utsoft.commons.guide.animation;
 
+import android.view.View;
+
 public interface TransGuideListener {
 
-    void onUserClicked(String transGuideViewId);
+    void onUserClicked(View transGuideView);
 
     void isShowing(boolean isShowing);
 }
