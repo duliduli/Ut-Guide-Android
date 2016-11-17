@@ -15,7 +15,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.MarnonDev:EasyStatusView:v1.0.0'
+     
 }
 ```
 
