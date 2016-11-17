@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="ShowAll" />
+            android:text="全部显示" />
 
         <Button
             android:id="@+id/btn_main_type2"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_margin="8dp"
-            android:text="ShowOne" />
+            android:text="挨个显示" />
 
         <Button
             android:id="@+id/btn_main_type3"
@@ -35,13 +35,15 @@
             android:layout_margin="8dp"
             android:text="带图片和跳过" />
 
-        <!--<Button-->
-        <!--android:id="@+id/btn_main_type4"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@id/btn_main_type2"-->
-        <!--android:layout_margin="8dp" />-->
+        <Button
+            android:id="@+id/btn_main_type4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/btn_main_type1"
+            android:layout_margin="8dp"
+            android:text="点击外部消失" />
+
 
     </RelativeLayout>
 
@@ -91,10 +93,6 @@
             android:layout_margin="8dp"
             android:text="指示按钮5" />
 
-        <ListView
-            android:id="@+id/lv_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
 
     </RelativeLayout>
 

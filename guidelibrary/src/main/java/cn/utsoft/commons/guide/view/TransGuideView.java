@@ -96,7 +96,6 @@ public class TransGuideView extends RelativeLayout {
 
     private TransGuideListener materialIntroListener;
 
-    private boolean isPerformClick;
 
     private boolean mShowing;
 
@@ -136,7 +135,6 @@ public class TransGuideView extends RelativeLayout {
         isLayoutCompleted = false;
         isInfoEnabled = false;
         isDotViewEnabled = true;
-        isPerformClick = true;
         isImageViewEnabled = true;
 
         handler = new Handler();
@@ -476,10 +474,6 @@ public class TransGuideView extends RelativeLayout {
         this.materialIntroListener = materialIntroListener;
     }
 
-    private void setPerformClick(boolean isPerformClick) {
-        this.isPerformClick = isPerformClick;
-    }
-
 
     private void setImgIcon(Integer imgsId) {
         this.imageViewIcon.setBackgroundResource(imgsId);
@@ -684,10 +678,6 @@ public class TransGuideView extends RelativeLayout {
             return this;
         }
 
-        public BuilderGuide setPerformClick(boolean isPerformClick) {
-            materialIntroView.setPerformClick(isPerformClick);
-            return this;
-        }
 
         public boolean isShowing() {
             return materialIntroView.mShowing;
