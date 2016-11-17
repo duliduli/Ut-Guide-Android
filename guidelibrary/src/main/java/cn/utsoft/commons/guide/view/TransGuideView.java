@@ -436,6 +436,10 @@ public class TransGuideView extends RelativeLayout {
         this.tv_skip_guide.setTextColor(skipColor);
     }
 
+    private void setSkipTextSize(int skipTextSize) {
+        this.tv_skip_guide.setTextSize(TypedValue.COMPLEX_UNIT_SP, skipTextSize);
+    }
+
     private void setSkipVisible(boolean visibility) {
 
         if (visibility) {
@@ -590,7 +594,7 @@ public class TransGuideView extends RelativeLayout {
          * @param textColor 内容的文字颜色
          * @return
          */
-        public BuilderGuide setTextColor(int textColor) {
+        public BuilderGuide setInfoTextColor(int textColor) {
             materialIntroView.setColorTextViewInfo(textColor);
             return this;
         }
@@ -599,7 +603,7 @@ public class TransGuideView extends RelativeLayout {
          * @param skipText 跳过按钮的文字内容
          * @return
          */
-        public BuilderGuide setSkipTextInfo(String skipText) {
+        public BuilderGuide setSkipInfoText(String skipText) {
             materialIntroView.setTvSkipGuide(skipText);
             return this;
         }
@@ -622,6 +626,10 @@ public class TransGuideView extends RelativeLayout {
             return this;
         }
 
+        public BuilderGuide setSkipTextSize(int skipTextSize) {
+            materialIntroView.setSkipTextSize(skipTextSize);
+            return this;
+        }
 
         /**
          * @param dismissAnyPos 点击任何位置 是否消失  默认为false
@@ -634,7 +642,7 @@ public class TransGuideView extends RelativeLayout {
 
 
         /**
-         * @param isDotAnimationEnabled 是否动画
+         * @param isDotAnimationEnabled 闪动的小圆点是否显示
          * @return
          */
         public BuilderGuide setEnableDotAnimation(boolean isDotAnimationEnabled) {

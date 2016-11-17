@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements TransGuideListene
         btnMainType2.setOnClickListener(this);
         btnMainType3.setOnClickListener(this);
 
-
     }
 
     @Override
