@@ -17,7 +17,8 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.2366634662:Ut-Guide-Android:1.0.0'
+     ...
+     compile 'com.github.duliduli:Ut-Guide-Android:1.0.0'
 }
 ```
 
@@ -29,7 +30,7 @@ dependencies {
 
 demo 下载地址：
 ----------
-            https://github.com/2366634662/Ut-Guide-Android
+            https://github.com/duliduli/Ut-Guide-Android
 
 
 #### 三、使用
@@ -37,9 +38,6 @@ demo 下载地址：
 方法与属性：
 ------
 
-<!--![](https://github.com/niniloveyou/StateButton/blob/master/image.png)-->
-
-<!--![stateButton](https://github.com/niniloveyou/StateButton/blob/master/stateButton.gif)-->
 
 |        Attribute       |      default value     |                 java                                         |   作用    |
 |------------------------|------------------------|--------------------------------------------------------------|--------|

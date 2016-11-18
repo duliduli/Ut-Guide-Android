@@ -91,11 +91,9 @@ public class TransGuideView extends RelativeLayout {
 
     private TextView tv_skip_guide;
 
-
     private boolean isLayoutCompleted;
 
     private TransGuideListener materialIntroListener;
-
 
     private boolean mShowing;
 
