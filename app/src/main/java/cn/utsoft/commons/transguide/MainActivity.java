@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements TransGuideListene
     Button btnLightarea04;
     Button btnLightarea05;
 
+    private BlankFragment fg_fragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements TransGuideListene
         btnMainType2.setOnClickListener(this);
         btnMainType3.setOnClickListener(this);
         btnMainType4.setOnClickListener(this);
+
+        fg_fragment = (BlankFragment) getSupportFragmentManager().findFragmentById(R.id.fg_fragment);
+
 
     }
 
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements TransGuideListene
             showTransGuide("要指示的按钮3", false, true, true, Focus.NORMAL, btnLightarea03);
         }
         if (transGuideView == btnLightarea03) {
-            showTransGuide("要指示的按钮4", false, false, false, Focus.ALL, btnLightarea04);
+            showTransGuide("要指示的按钮4", false, false, true, Focus.RECT, btnLightarea04);
         }
         if (transGuideView == btnLightarea04) {
             showTransGuide("要指示的按钮5", false, false, false, Focus.RECT, btnLightarea05);
@@ -93,11 +99,15 @@ public class MainActivity extends AppCompatActivity implements TransGuideListene
         new TransGuideView.BuilderGuide(this).setFocusType(type)
                 .setEnableFadeAnimation(false)
                 .setDismissAnyPos(dissmsAnyPos)
+//                .setInfoTextSize(25)
                 .setEnableDotAnimation(true)
+                .setImgsIconVisible(false)
                 .setImgsIconVisible(imgiconsvis)
                 .setImgsIconBack(R.mipmap.ic_launcher)
                 .setInfoText(text)
                 .setTargetPadding(50)
+                .setLightAreaConner(15)
+                .setBackGround(R.color.colorback1)
                 .setTargets(view)
                 .setSkipTextVisible(skiptextVis)
                 .setListener(this)

@@ -3,6 +3,7 @@ package cn.utsoft.commons.guide.shape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 
 import java.util.List;
 
@@ -42,13 +43,12 @@ public class DrawLightArea {
 
     }
 
-    public void draw(Canvas canvas, Paint eraser, int padding, int pos) {
-        drawDifferent(canvas, eraser, padding, pos);
-    }
-
-    private void drawDifferent(Canvas canvas, Paint eraser, int padding, int pos) {
+    public void draw(Canvas canvas, Paint eraser, int padding, int pos, int conner) {
         if (focus == Focus.RECT) {
-            canvas.drawRect(targets.get(pos).getRect(), eraser);
+            RectF rectF = new RectF();
+            rectF.set(targets.get(pos).getRect());
+//            canvas.drawRect(targets.get(pos).getRect(), eraser);
+            canvas.drawRoundRect(rectF, conner, conner, eraser);
         } else {
             calculateRadius(padding, pos);
             circlePoint = getFocusPoint(pos);
@@ -66,15 +66,17 @@ public class DrawLightArea {
     }
 
     private void calculateRadius(int padding, int pos) {
-        int side;
+        int side = 0;
         if (focus == Focus.MINIMUM)
             side = Math.min(targets.get(pos).getRect().width() / 2, targets.get(pos).getRect().height() / 2);
         else if (focus == Focus.ALL)
             side = Math.max(targets.get(pos).getRect().width() / 2, targets.get(pos).getRect().height() / 2);
-        else {
+        else if (focus == Focus.NORMAL) {
             int minSide = Math.min(targets.get(pos).getRect().width() / 2, targets.get(pos).getRect().height() / 2);
             int maxSide = Math.max(targets.get(pos).getRect().width() / 2, targets.get(pos).getRect().height() / 2);
             side = (minSide + maxSide) / 2;
+        } else {
+            radius = 0;
         }
         radius = side + padding;
     }

@@ -117,6 +117,8 @@ public class TransGuideView extends RelativeLayout {
         init(context);
     }
 
+    private RelativeLayout rLayoutContent;
+
     private void init(Context context) {
         setWillNotDraw(false);
         setVisibility(INVISIBLE);
@@ -149,6 +151,7 @@ public class TransGuideView extends RelativeLayout {
         View layoutInfo = LayoutInflater.from(getContext()).inflate(R.layout.guide_layout, null);
         infoView = layoutInfo.findViewById(R.id.info_layout);
 
+        rLayoutContent = (RelativeLayout) layoutInfo.findViewById(R.id.rllayout_content);
         textViewInfo = (TextView) layoutInfo.findViewById(R.id.textview_info);
         textViewInfo.setTextColor(colorTextViewInfo);
         imageViewIcon = (ImageView) layoutInfo.findViewById(R.id.iv_icon);
@@ -163,7 +166,7 @@ public class TransGuideView extends RelativeLayout {
                     lightAreaShape.reCalculateAll(i);
                     if (lightAreaShape != null && lightAreaShape.getPoint().y != 0 && !isLayoutCompleted) {
                         if (isInfoEnabled) {
-                            setInfoLayout();
+                            setInfoLayout(i);
                         }
                         if (isDotViewEnabled) {
                             setDotViewLayout();
@@ -232,8 +235,10 @@ public class TransGuideView extends RelativeLayout {
 
             canvas.drawBitmap(bitmap, 0, 0, null);
         }
-        lightAreaShape.draw(this.canvas, eraser, padding, pos);
+        lightAreaShape.draw(this.canvas, eraser, padding, pos, mConner);
     }
+
+    private int mConner = 0;
 
     /**
      * @param event
@@ -325,7 +330,7 @@ public class TransGuideView extends RelativeLayout {
     /**
      * content layout
      */
-    private void setInfoLayout() {
+    private void setInfoLayout(final int pos) {
 
         handler.post(new Runnable() {
             @Override
@@ -336,9 +341,15 @@ public class TransGuideView extends RelativeLayout {
                 LayoutParams infoDialogParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 ((RelativeLayout) infoView).setGravity(Gravity.BOTTOM);
                 if (lightAreaShape.getPoint().y < height / 2) {
-                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint().y + lightAreaShape.getRadius()) - 3 * lightAreaShape.getRadius());
+                    if (focusType == Focus.RECT) {
+                        infoDialogParams.setMargins(0, 0, 0, height - lightAreaShape.getPoint().y - 2 * targetViews.get(pos).getView().getMeasuredHeight());
+                    } else
+                        infoDialogParams.setMargins(0, 0, 0, height - lightAreaShape.getPoint().y - 2 * lightAreaShape.getRadius());
                 } else {
-                    infoDialogParams.setMargins(0, 0, 0, height - (lightAreaShape.getPoint().y + lightAreaShape.getRadius()) + 2 * lightAreaShape.getRadius());
+                    if (focusType == Focus.RECT) {
+                        infoDialogParams.setMargins(0, 0, 0, height - lightAreaShape.getPoint().y + targetViews.get(pos).getView().getMeasuredHeight());
+                    } else
+                        infoDialogParams.setMargins(0, 0, 0, height - lightAreaShape.getPoint().y + lightAreaShape.getRadius());
                 }
                 infoView.setLayoutParams(infoDialogParams);
                 infoView.postInvalidate();
@@ -481,7 +492,11 @@ public class TransGuideView extends RelativeLayout {
 
 
     private void setInfoViewBack(int colorInfoView) {
-        this.infoView.setBackgroundResource(colorInfoView);
+        this.rLayoutContent.setBackgroundResource(colorInfoView);
+    }
+
+    private void setLightAreaConner(int mConner) {
+        this.mConner = mConner;
     }
 
     /**
@@ -664,6 +679,15 @@ public class TransGuideView extends RelativeLayout {
 
         public BuilderGuide setBackGround(int backGroundColor) {
             materialIntroView.setInfoViewBack(backGroundColor);
+            return this;
+        }
+
+        /**
+         * @param conner 矩形圆角
+         * @return
+         */
+        public BuilderGuide setLightAreaConner(int conner) {
+            materialIntroView.setLightAreaConner(conner);
             return this;
         }
 

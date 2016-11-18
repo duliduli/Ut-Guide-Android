@@ -29,12 +29,12 @@ public class ViewTarget implements Target {
     public Rect getRect() {
         int[] location = new int[2];
         view.getLocationInWindow(location);
-        return new Rect(
-                location[0],
+        Rect rect = new Rect();
+        rect.set(location[0],
                 location[1],
-                location[0] + view.getWidth(),
-                location[1] + view.getHeight()
-        );
+                location[0] + view.getMeasuredWidth(),
+                location[1] + view.getMeasuredHeight());
+        return rect;
     }
 
     @Override

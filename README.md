@@ -61,7 +61,9 @@ demo 下载地址：
 | skipText isVisible        |   false                |  setSkipTextVisible(boolean visible)             |跳过按钮的文字是否显示|
 | skipTextContent           |   null                 |  setSkipInfoText(String skipText)             |跳过按钮的文字内容|
 | contentLayoutBackGround   |   @android:color/white |  setBackGround(int backGroundColor)             |提示区域的背景颜色|
+| conner   |   0 |  setLightAreaConner(int conner)             |矩形圆角|
 | Targets      |                      | setTargets(View... view)              |  要指示的按钮  |
+| isShowing      |                      |              |  指示层是否在显示  |
 
 Focus
 ------
@@ -96,7 +98,12 @@ private void showTransGuide(String text, boolean dissmsAnyPos, boolean skiptextV
 **指示多个，回调监听**
 
 
+
 ````
+        public class MainActivity extends AppCompatActivity implements TransGuideListener,{
+            
+            ...............
+            
                 @Override
                 public void onUserClicked(View transGuideView) {
                     if (transGuideView == btnLightarea01) {
@@ -112,8 +119,14 @@ private void showTransGuide(String text, boolean dissmsAnyPos, boolean skiptextV
                         showTransGuide("要指示的按钮5", false, false, false, Focus.RECT, btnLightarea05);
                     }
                 }
+                
+                @Override
+                public void isShowing(boolean isShowing) {
+            
+                }
+                
 
-
+}
 
 ````
 
